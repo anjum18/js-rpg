@@ -1,20 +1,13 @@
-var bite = new Image();
-bite.src = "tilesets/bite.png";
+var ts = new Tileset("grass-tileset.png");
 
 
 window.onload = function() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
-	ctx.fillStyle = 'blue';
-	ctx.fillRect(10, 10, 100, 50);
+  ts.dessinerTile(1, ctx, 10, 10);
+  ts.dessinerTile(5, ctx, 50, 10);
+  ts.dessinerTile(6, ctx, 90, 10);
+  ts.dessinerTile(7, ctx, 130, 10);
 
-	ctx.strokeStyle = 'red';
-	ctx.strokeRect(75, 75, 50, 50);
-
-  ctx.drawImage(bite, 150, 20);
-
-  ctx.drawImage(bite, 200, 30, 100, 50);
-
-  ctx.drawImage(bite, 0, 0, 10, 19, 200, 100, 10, 19);
 }
