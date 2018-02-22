@@ -11,10 +11,6 @@ function Tileset(url) {
     this.referenceDuTileset.largeur = this.width / 32;
 	}
 
-
-  console.log(this);
-
-
 }
 
 // Méthode de dessin du tile numéro "numero" dans le contexte 2D "context" aux coordonnées x et y
