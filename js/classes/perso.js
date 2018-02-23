@@ -5,7 +5,7 @@ var DIRECTION = {
 	"HAUT"   : 3
 }
 var DUREE_ANIMATION = 4;
-var DUREE_DEPLACEMENT = 15;
+var DUREE_DEPLACEMENT = 10;
 
 
 
@@ -38,12 +38,12 @@ Personnage.prototype.dessinerPersonnage = function(context) {
   } else if(this.etatAnimation >= 0) {
   	// On calcule l'image (frame) de l'animation à afficher
   	frame = Math.floor(this.etatAnimation / DUREE_ANIMATION);
-  	if(frame > 3) {
-  		frame %= 4;
+  	if(frame > DUREE_ANIMATION - 1) {
+  		frame %= DUREE_ANIMATION;
   	}
 
   	// Nombre de pixels restant à parcourir entre les deux cases
-  	var pixelsAParcourir = 32 - (32 * (this.etatAnimation / DUREE_DEPLACEMENT));
+  	var pixelsAParcourir = TILE_SIZE - (TILE_SIZE * (this.etatAnimation / DUREE_DEPLACEMENT));
 
   	// À partir de ce nombre, on définit le décalage en x et y.
   	// NOTE : Si vous connaissez une manière plus élégante que ces quatre conditions, je suis preneur
@@ -71,11 +71,12 @@ Personnage.prototype.dessinerPersonnage = function(context) {
    		this.largeur * frame, this.direction * this.hauteur, // Point d'origine du rectangle source à prendre dans notre image
    		this.largeur, this.hauteur, // Taille du rectangle source (c'est la taille du personnage)
    		// Point de destination (dépend de la taille du personnage)
-   		(this.x * 32) - (this.largeur / 2) + 16 + decalageX, (this.y * 32) - this.hauteur + 24 + decalageY,
+   		(this.x * TILE_SIZE) - (this.largeur / 2) + 16 + decalageX, (this.y * TILE_SIZE) - this.hauteur + 24 + decalageY,
    		this.largeur, this.hauteur // Taille du rectangle destination (c'est la taille du personnage)
    );
 
 }
+
 Personnage.prototype.getCoordonneesAdjacentes = function(direction)  {
 	var coord = {'x' : this.x, 'y' : this.y};
 	switch(direction) {

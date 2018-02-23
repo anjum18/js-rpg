@@ -20,6 +20,8 @@ function Map(nom) {
   this.tileset = new Tileset(mapData.tileset);
   // Liste des personnages présents sur le terrain.
   this.personnages = new Array();
+
+	this.decors = new Array();
   this.terrain = mapData.terrain;
 
 }
@@ -38,9 +40,9 @@ Map.prototype.getLargeur = function() {
 Map.prototype.dessinerMap = function(context) {
   for(var i = 0, l = this.terrain.length ; i < l ; i++) {
     var ligne = this.terrain[i];
-    var y = i * 32;
+    var y = i * TILE_SIZE;
     for(var j = 0, k = ligne.length ; j < k ; j++) {
-      this.tileset.dessinerTile(ligne[j], context, j * 32, y);
+      this.tileset.dessinerTile(ligne[j], context, j * TILE_SIZE, y);
     }
   }
   // Dessin des personnages
@@ -48,9 +50,17 @@ Map.prototype.dessinerMap = function(context) {
   	this.personnages[i].dessinerPersonnage(context);
   }
 
+	for(var i = 0, l = this.decors.length ; i < l ; i++) {
+  	this.decors[i].dessinerDecor(context);
+  }
+
 }
 
 // Pour ajouter un personnage
 Map.prototype.addPersonnage = function(perso) {
 	this.personnages.push(perso);
+}
+
+Map.prototype.addDecor = function(decor) {
+	this.decors.push(decor);
 }

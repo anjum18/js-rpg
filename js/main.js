@@ -1,19 +1,33 @@
+const interval = 40;
+
 var map = new Map("first");
 
 var joueur = new Personnage("player.png", 7, 14, DIRECTION.BAS);
 map.addPersonnage(joueur);
 
 
+for (var i = 0; i < map.getLargeur();  i++) {
+	for (var j = 0; j < map.getHauteur();  j++) {
+		if((Math.random()) > 0.8 && map.terrain[i][j] == 2 ) {
+
+			var tree = new Decor("tree.png", j * TILE_SIZE, i * TILE_SIZE);
+			map.addDecor(tree);
+		}
+	}
+}
+
+
+
 window.onload = function() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
-	canvas.width  = map.getLargeur() * 32;
-	canvas.height = map.getHauteur() * 32;
+	canvas.width  = map.getLargeur() * TILE_SIZE;
+	canvas.height = map.getHauteur() * TILE_SIZE;
 
 	setInterval(function() {
 		map.dessinerMap(ctx);
-	}, 40);
+	}, interval);
 
 
 	// Gestion du clavier
@@ -34,7 +48,6 @@ window.onload = function() {
 				joueur.deplacer(DIRECTION.DROITE, map);
 				break;
 			default :
-				//alert(key);
 				// Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
 				return true;
 		}
