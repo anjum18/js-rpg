@@ -2,9 +2,6 @@ const interval = 40;
 
 var map = new Map("first");
 
-var joueur = new Personnage("player.png", 7, 14, DIRECTION.BAS);
-map.addPersonnage(joueur);
-
 
 for (var i = 0; i < map.getLargeur();  i++) {
 	for (var j = 0; j < map.getHauteur();  j++) {
@@ -15,6 +12,11 @@ for (var i = 0; i < map.getLargeur();  i++) {
 		}
 	}
 }
+
+
+var joueur = new Personnage("player.png", 7, 14, DIRECTION.BAS);
+map.addPersonnage(joueur);
+
 
 
 

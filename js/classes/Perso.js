@@ -13,6 +13,10 @@ function Personnage(url, x, y, direction) {
   this.etatAnimation = -1;
 	this.x = x; // (en cases)
 	this.y = y; // (en cases)
+	this.xCol = x * TILE_SIZE; // (en pixels)
+	this.yCol = y * TILE_SIZE; // (en pixels)
+	this.width = TILE_SIZE;
+	this.height = TILE_SIZE;
 	this.direction = direction;
 
 	// Chargement de l'image dans l'attribut image
@@ -102,11 +106,30 @@ Personnage.prototype.deplacer = function(direction, map) {
   	return false;
   }
 
+
+
 	// On change la direction du personnage
 	this.direction = direction;
 
 	// On vérifie que la case demandée est bien située dans la carte
 	var prochaineCase = this.getCoordonneesAdjacentes(direction);
+	this.xCol = prochaineCase.x * TILE_SIZE;
+	this.yCol = prochaineCase.y * TILE_SIZE;
+
+	//collisions with trees
+	var collide = false;
+	for (var i = 0; i < map.decors.length; i++) {
+		console.log(this.isCollide(map.decors[i]));
+		if(this.isCollide(map.decors[i])) {
+			collide = true;
+		}
+	}
+
+	if(collide) {
+		return false;
+	}
+
+	//collision with bordures
 	if(prochaineCase.x < 0 || prochaineCase.y < 0 || prochaineCase.x >= map.getLargeur() || prochaineCase.y >= map.getHauteur()) {
 		// On retourne un booléen indiquant que le déplacement ne s'est pas fait,
 		// Ça ne coute pas cher et ca peut toujours servir
@@ -118,6 +141,22 @@ Personnage.prototype.deplacer = function(direction, map) {
 	// On effectue le déplacement
 	this.x = prochaineCase.x;
 	this.y = prochaineCase.y;
+	this.xCol = prochaineCase.x * TILE_SIZE;
+	this.yCol = prochaineCase.y * TILE_SIZE;
 
 	return true;
 }
+
+Personnage.prototype.isCollide = function (b) {
+		let toleranceHeightDecor = b.height - 2;
+		let toleranceWidthDecor = b.width - 2;
+		let toleranceHeightPlayer = this.height - 2;
+		let toleranceWidthPlayer = this.width - 2;
+    return !(
+        ((this.yCol + toleranceHeightPlayer) < (b.y)) ||
+        (this.yCol > (b.y + toleranceHeightDecor)) ||
+        ((this.xCol + toleranceWidthPlayer) < b.x) ||
+        (this.xCol > (b.x + toleranceWidthDecor))
+    );
+
+};

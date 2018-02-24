@@ -45,14 +45,16 @@ Map.prototype.dessinerMap = function(context) {
       this.tileset.dessinerTile(ligne[j], context, j * TILE_SIZE, y);
     }
   }
-  // Dessin des personnages
-  for(var i = 0, l = this.personnages.length ; i < l ; i++) {
-  	this.personnages[i].dessinerPersonnage(context);
-  }
+
 
 	for(var i = 0, l = this.decors.length ; i < l ; i++) {
   	this.decors[i].dessinerDecor(context);
   }
+
+	// Dessin des personnages
+	for(var i = 0, l = this.personnages.length ; i < l ; i++) {
+		this.personnages[i].dessinerPersonnage(context);
+	}
 
 }
 
