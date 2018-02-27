@@ -4,6 +4,8 @@ function Decor(url,x,y) {
 	this.image = new Image();
   this.x = x;
   this.y = y;
+	this.xCol = x;
+  this.yCol = y;
 	this.width = TILE_SIZE;
 	this.height = TILE_SIZE;
 

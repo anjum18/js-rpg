@@ -22,6 +22,7 @@ function Map(nom) {
   this.personnages = new Array();
 
 	this.decors = new Array();
+
   this.terrain = mapData.terrain;
 
 }
@@ -46,7 +47,7 @@ Map.prototype.dessinerMap = function(context) {
     }
   }
 
-
+	//dessin decors
 	for(var i = 0, l = this.decors.length ; i < l ; i++) {
   	this.decors[i].dessinerDecor(context);
   }

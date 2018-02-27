@@ -7,9 +7,19 @@ var DIRECTION = {
 var DUREE_ANIMATION = 4;
 var DUREE_DEPLACEMENT = 10;
 
+var PLAYER_DEFAULT_HEALTH = 80
+
 
 
 function Personnage(url, x, y, direction) {
+
+	this.dialogCount = 0;
+	this.dialogs = [
+		"Hello World",
+		"Bye"
+	];
+	this.health = PLAYER_DEFAULT_HEALTH;
+
   this.etatAnimation = -1;
 	this.x = x; // (en cases)
 	this.y = y; // (en cases)
@@ -82,6 +92,7 @@ Personnage.prototype.dessinerPersonnage = function(context) {
 }
 
 Personnage.prototype.getCoordonneesAdjacentes = function(direction)  {
+	console.log(direction);
 	var coord = {'x' : this.x, 'y' : this.y};
 	switch(direction) {
 		case DIRECTION.BAS :
@@ -119,8 +130,15 @@ Personnage.prototype.deplacer = function(direction, map) {
 	//collisions with trees
 	var collide = false;
 	for (var i = 0; i < map.decors.length; i++) {
-		console.log(this.isCollide(map.decors[i]));
 		if(this.isCollide(map.decors[i])) {
+			collide = true;
+		}
+	}
+
+	//collision with NPCs
+	for (var i = 0; i < map.personnages.length; i++) {
+		if(i==1) {break;} //ignore collision of player with himself, player is loaded second, index 1
+		if(this.isCollide(map.personnages[i])) {
 			collide = true;
 		}
 	}
@@ -148,15 +166,25 @@ Personnage.prototype.deplacer = function(direction, map) {
 }
 
 Personnage.prototype.isCollide = function (b) {
-		let toleranceHeightDecor = b.height - 2;
-		let toleranceWidthDecor = b.width - 2;
-		let toleranceHeightPlayer = this.height - 2;
-		let toleranceWidthPlayer = this.width - 2;
+
+		let toleranceHeightB = b.height - 2;
+		let toleranceWidthB = b.width - 2;
+		let toleranceHeightA = this.height - 2;
+		let toleranceWidthA = this.width - 2;
     return !(
-        ((this.yCol + toleranceHeightPlayer) < (b.y)) ||
-        (this.yCol > (b.y + toleranceHeightDecor)) ||
-        ((this.xCol + toleranceWidthPlayer) < b.x) ||
-        (this.xCol > (b.x + toleranceWidthDecor))
+        ((this.yCol + toleranceHeightA) < (b.yCol)) ||
+        (this.yCol > (b.yCol + toleranceHeightB)) ||
+        ((this.xCol + toleranceWidthA) < b.xCol) ||
+        (this.xCol > (b.xCol + toleranceWidthB))
     );
 
 };
+
+Personnage.prototype.dialog = function() {
+
+	alert(this.dialogs[this.dialogCount]);
+	this.dialogCount++;
+	if(this.dialogs[this.dialogCount] === undefined) {
+		this.dialogCount = 0;
+	}
+}

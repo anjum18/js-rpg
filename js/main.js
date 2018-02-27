@@ -14,13 +14,16 @@ for (var i = 0; i < map.getLargeur();  i++) {
 }
 
 
-var joueur = new Personnage("player.png", 7, 14, DIRECTION.BAS);
+var pnj = new Personnage("pnj.png", 6, 10, DIRECTION.BAS);
+map.addPersonnage(pnj);
+
+var joueur = new Personnage("player.png", 6, 14, DIRECTION.HAUT);
 map.addPersonnage(joueur);
 
 
 
-
 window.onload = function() {
+	var lastDirection = 0; //changes on every move, global for facing direction
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
@@ -39,15 +42,26 @@ window.onload = function() {
 		switch(key) {
 			case 38 : case 122 : case 119 : case 90 : case 87 : // Flèche haut, z, w, Z, W
 				joueur.deplacer(DIRECTION.HAUT, map);
+				lastDirection = DIRECTION.HAUT;
 				break;
 			case 40 : case 115 : case 83 : // Flèche bas, s, S
 				joueur.deplacer(DIRECTION.BAS, map);
+				lastDirection = DIRECTION.BAS;
 				break;
 			case 37 : case 113 : case 97 : case 81 : case 65 : // Flèche gauche, q, a, Q, A
 				joueur.deplacer(DIRECTION.GAUCHE, map);
+				lastDirection = DIRECTION.GAUCHE;
 				break;
 			case 39 : case 100 : case 68 : // Flèche droite, d, D
 				joueur.deplacer(DIRECTION.DROITE, map);
+				lastDirection = DIRECTION.DROITE;
+				break;
+			case 32 : // space
+				var coords = joueur.getCoordonneesAdjacentes(lastDirection);
+				if(coords.x == pnj.x && coords.y == pnj.y) {
+					pnj.dialog();
+				}
+				console.log(coords);console.log(pnj);
 				break;
 			default :
 				// Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
