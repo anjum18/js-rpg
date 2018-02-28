@@ -57,6 +57,7 @@ Map.prototype.dessinerMap = function(context) {
 		this.personnages[i].dessinerPersonnage(context);
 	}
 
+
 }
 
 // Pour ajouter un personnage

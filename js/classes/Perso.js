@@ -92,7 +92,6 @@ Personnage.prototype.dessinerPersonnage = function(context) {
 }
 
 Personnage.prototype.getCoordonneesAdjacentes = function(direction)  {
-	console.log(direction);
 	var coord = {'x' : this.x, 'y' : this.y};
 	switch(direction) {
 		case DIRECTION.BAS :
@@ -180,8 +179,12 @@ Personnage.prototype.isCollide = function (b) {
 
 };
 
-Personnage.prototype.dialog = function() {
-
+Personnage.prototype.dialog = function(ctx,refresh) {
+	ctx.fillStyle = "black";
+	ctx.fillRect(0,11 * TILE_SIZE,map.decors.length * TILE_SIZE,4 * TILE_SIZE);
+	ctx.font = "30px Arial";
+	ctx.fillStyle = "white";
+	ctx.fillText(this.dialogs[this.dialogCount],2 * TILE_SIZE,12 * TILE_SIZE);
 	alert(this.dialogs[this.dialogCount]);
 	this.dialogCount++;
 	if(this.dialogs[this.dialogCount] === undefined) {

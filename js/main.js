@@ -30,9 +30,10 @@ window.onload = function() {
 	canvas.width  = map.getLargeur() * TILE_SIZE;
 	canvas.height = map.getHauteur() * TILE_SIZE;
 
-	setInterval(function() {
+	function refresh() {
 		map.dessinerMap(ctx);
-	}, interval);
+	}
+	var theInterval = setInterval(refresh, interval);
 
 
 	// Gestion du clavier
@@ -59,9 +60,8 @@ window.onload = function() {
 			case 32 : // space
 				var coords = joueur.getCoordonneesAdjacentes(lastDirection);
 				if(coords.x == pnj.x && coords.y == pnj.y) {
-					pnj.dialog();
+					pnj.dialog(ctx,theInterval);
 				}
-				console.log(coords);console.log(pnj);
 				break;
 			default :
 				// Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
